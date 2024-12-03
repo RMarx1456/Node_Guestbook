@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
     console.log("Hello, world - server!");
 
     // Return home page
-    res.render('home');
+    res.render('home', { errors: []});
 });
 
 // Define a "confirm" route, using the GET method
@@ -77,11 +77,45 @@ app.post('/confirm', async (req, res) => {
     res.render('confirm', { details: data });
 });
 
-app.get('/confirmations', async (req, res) => {
+app.post('/confirm', async (req, res) => {
+
+
+
+    const data = req.body;
+
+    let isValid = true;
+    let errors =[];
+
+    if(data.firstName.trim() == "") {
+        isValid = false;
+        errors.push("First name is required.")
+    }
+    if(data.lastName.trim() == "") {
+        isValid = false;
+        errors.push("Last name is required.")
+    }
+    if(data.email.trim() == "") {
+        isValid = false;
+        errors.push("Email name is required.")
+    }
+
+    if(isValid) {
+        res.render('home');
+        return;
+    }
 
     const conn = await connect();
 
-    const rows = await conn.query('SELECT * FROM users;');
+    conn.query(`
+        INSER INTO reservation_slot (firstName, lastName, email)
+        VALUES (${data.firstName}), (${data.lastName}), (${data.email}) `);
+});
+
+app.get('/confirmations', async (req, res) => {
+    //Admin page.
+    const conn = await connect();
+
+    const rows = await conn.query('SELECT * FROM reservation_slot;');
 
     console.log(rows);
 

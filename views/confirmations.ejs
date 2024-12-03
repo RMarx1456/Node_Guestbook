@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
 <body>
     <% if (data.length !== 0) { %>
         <ul>
-        <% for(let i = 0; i < data.length; i++ ) { %>
-            <li><%= data[i].firstName %> <%= data[i].lastName %></li>
-        <% } %>
+            <% for(let i = 0; i < data.length; i++) { %>
+                <li><%= data[i].firstName %> <%= data[i].lastName %></li>
+                <li><%= data[i].email %> <%= data[i].reserveTime %></li>
+            <% } %>
         </ul>
     <% } else { %>
-        <p>No data!</p>
+        <p>No data!</p>  
     <% } %>
-    <p>Always here!</p>
 </body>
 </html>
